@@ -25,8 +25,10 @@ public class ClienteNewDTO implements Serializable {
 	@NotEmpty(message="Preenchimento obrigatório!")
 	private String cpfOuCnpj;
 	
-	//@NotEmpty(message="Preenchimento obrigatório!")
 	private Integer tipo;
+	
+	@NotEmpty(message="Preenchimento obrigatório!")
+	private String senha;
 	
 	@NotEmpty(message="Preenchimento obrigatório!")
 	private String logradouro;
@@ -67,6 +69,14 @@ public class ClienteNewDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getCpfOuCnpj() {
