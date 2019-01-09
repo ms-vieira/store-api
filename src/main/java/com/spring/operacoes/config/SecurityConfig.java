@@ -26,9 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private Environment env;
 	
 	//Endpoints liberados para acesso.
-	public static final String[] PUBLIC_MATCHERS = { "/H2-console/**"};
+	public static final String[] PUBLIC_MATCHERS = { "/h2-console/**"};
 	
-	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
+	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**", "/h2-console/**" };
 
 	//Padrão do framework - Todos os caminhos do PUBLIC_MATCHERS serão permitidos.
 	@Override
