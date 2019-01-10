@@ -11,10 +11,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component 
 public class JWTUtil {
 
-	@Value("{$jwt.scret}")
+	@Value("${jwt.secret}")
 	private String secret;
-	
-	@Value("{jwt.expiration}")
+
+	@Value("${jwt.expiration}")
 	private Long expiration;
 	
 	//Dependencia io.jsonwebtoken, método usado para gerar o token

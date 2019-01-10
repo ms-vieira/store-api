@@ -28,34 +28,40 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private JWTUtil jwtUtil;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
-		setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
-		this.authenticationManager = authenticationManager;
-		this.jwtUtil = jwtUtil;
-	}
+    	setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+}
 
+	// Usando o spring security para tentar autenticar
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {
 
 		try {
 			CredenciaisDTO creds = new ObjectMapper().readValue(req.getInputStream(), CredenciaisDTO.class);
-
+			// Pegando as credenciais método POST email e senha
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),
 					creds.getSenha(), new ArrayList<>());
-
+			// Verifica se o usuario e senha é válido
 			Authentication auth = authenticationManager.authenticate(authToken);
-			return auth;
+			return auth; // Esse objeto retorna se o usuário e senha está correto
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	// Se autenticação der certo, esse método vai gerar um token usando JWT
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
+			// OBJ retornado pela autenticação
 			Authentication auth) throws IOException, ServletException {
-
+		// Retorna o usuario do spring security
+		// Após o Cast, é recuperado o user(email)
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
+		// Gerando o token
 		String token = jwtUtil.generateToken(username);
+		// Retorna o token na resp da req, adicionando no cabeçalho da resp
 		res.addHeader("Authorization", "Bearer " + token);
 	}
 

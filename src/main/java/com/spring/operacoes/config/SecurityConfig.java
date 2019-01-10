@@ -29,51 +29,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	private JWTUtil jwtUtil;
-	
-	//Endpoints liberados para acesso.
-	public static final String[] PUBLIC_MATCHERS = { "/h2-console/**"};
-	
-	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**", "/h2-console/**" };
 
-	//Padrão do framework - Todos os caminhos do PUBLIC_MATCHERS serão permitidos.
+	// Endpoints liberados para acesso.
+	public static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
+
+	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**",
+			"/h2-console/**" };
+
+	// Padrão do framework - Todos os caminhos do PUBLIC_MATCHERS serão permitidos.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		//Como não estamos usando sessão, não precisamos usar o CSRF, pois nosso sistema é STATELESS
+		// Como não estamos usando sessão, não precisamos usar o CSRF, pois nosso
+		// sistema é STATELESS
 		http.cors().and().csrf().disable();
-		http.authorizeRequests().
-		antMatchers(PUBLIC_MATCHERS).permitAll().
-		antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll().
-		anyRequest().authenticated();
+		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
+				.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().anyRequest().authenticated();
+		// Adicionando ao filtro criado na JWTAuthentication
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
-	//Sobrescreve para indicar o service
+
+	// Sobrescreve para indicar o service
 	@Override
-	public void configure (AuthenticationManagerBuilder auth) throws Exception {
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-		
+
 	}
 
-	//Permitindo acesso por multiplas fontes básico de todos os caminhos.
+	// Permitindo acesso por multiplas fontes básico de todos os caminhos.
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
-	
-	//Criptografar a senha do Cliente
+
+	// Criptografar a senha do Cliente
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
