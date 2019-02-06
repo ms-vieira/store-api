@@ -1,11 +1,13 @@
-## operations-CRUD
+## operations
 
-Implementações de operações de CRUD e de casos de uso conforme boas práticas de Engenharia de Software.
+API RESTful com CRUD, utilizando Spring Boot, Data, devtools, Security, H2database e jwt.
 
 ## Repositório do projeto:
-https://github.com/msvieiraweb/operations-CRUD
-
+https://github.com/msvieiraweb/operations
 ### Instruções para execução do projeto
 - Clonar repositório.
 - Importar em alguma IDE, ex:(STR).
 - Executar com Spring Boot App
+
+### Endpoint
+-
