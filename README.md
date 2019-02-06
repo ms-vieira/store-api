@@ -10,4 +10,20 @@ https://github.com/msvieiraweb/operations
 - Executar com Spring Boot App
 
 ### Endpoint
--
+```
+GET, POST, PUT e DELETE
+```
+- http://localhost:8080/categorias/
+- http://localhost:8080/categorias/{id}
+- http://localhost:8080/clientes/
+- http://localhost:8080/clientes/{id}
+
+```
+GET e POST
+```
+- http://localhost:8080/pedidos
+
+```
+GET
+```
+- http://localhost:8080/produtos
