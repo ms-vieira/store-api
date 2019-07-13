@@ -1,9 +1,9 @@
-## operations
+## store-api
 
 API RESTful com CRUD, utilizando Spring Boot, Data, devtools, Security, H2database e jwt.
 
 ## Repositório do projeto:
-https://github.com/msvieiraweb/operations
+https://github.com/msvieiraweb/store
 ### Instruções para execução do projeto
 - Clonar repositório.
 - Importar em alguma IDE, ex:(STR).
